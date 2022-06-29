@@ -13,6 +13,7 @@ pacman::p_load(conflicted,
                readxl, 
                correlation, 
                metan, 
-               magrittr)
+               magrittr, 
+               ggthemes)
 
 pacman::p_load_gh("jhgille2/snfR")

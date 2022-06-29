@@ -13,16 +13,21 @@ merge_yield_and_testweight <- function(merged_test_weight, merged_yield, util_ta
   # combination
   twt_yield_merged <- left_join(merged_test_weight, merged_yield, 
                           by = c("test", "loc", "year", "genotype", "rep")) %>% 
-    mutate(env = paste(loc, year, sep = " - "), 
-           genotype = str_squish(genotype)) %>% 
+    mutate(env               = paste(loc, year, sep = " - "), 
+           genotype          = str_squish(genotype), 
+           oil_dry_basis     = oil_dry_basis*0.87, 
+           protein_dry_basis = protein_dry_basis*0.87, 
+           protein_meal      = snfR::calc_protein_meal(oil_dry_basis, protein_dry_basis), 
+           twt_kg_hl         = twt_weight*1.287) %>% 
     relocate(env, .after = year) %>% 
-    select(-twt_date_time)
+    select(-twt_date_time) %>% 
+    rename(oil_13_pct     = oil_dry_basis, 
+           protein_13_pct = protein_dry_basis)
   
   # Recode the genotype column to standardize genotype names in case different
   # names were used for the same genotype in different seasons
   twt_yield_merged <- convert_from_table(twt_yield_merged, "genotype", util_tables$genotype_conversion_table)
     
-  
   # And return this joined dataframe
   return(twt_yield_merged)
 }

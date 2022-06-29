@@ -158,6 +158,4 @@ tar_plan(
   tar_target(test_weight_export, 
              export_test_weight(merged_test_weight, export = here("exports", "data", "merged_test_weight.csv")),
              format = "file")
-  
-
 )

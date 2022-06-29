@@ -21,8 +21,9 @@ fit_mixed_models <- function(df = split_data$data_2021) {
                       "yield", 
                       "sdwt", 
                       "sq", 
-                      "oil_dry_basis", 
-                      "protein_dry_basis")
+                      "oil_13_pct", 
+                      "protein_13_pct", 
+                      "protein_meal")
     
     missing_vars <- test_data %>% 
       pivot_longer(cols = measure_vars) %>% 

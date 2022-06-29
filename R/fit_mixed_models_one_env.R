@@ -20,8 +20,9 @@ fit_mixed_models_one_env <- function(df = split_data$single_year_single_env) {
                       "yield", 
                       "sdwt", 
                       "sq", 
-                      "oil_dry_basis", 
-                      "protein_dry_basis")
+                      "oil_13_pct", 
+                      "protein_13_pct", 
+                      "protein_meal")
     
     missing_vars <- test_data %>% 
       pivot_longer(cols = measure_vars) %>% 
