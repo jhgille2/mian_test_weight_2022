@@ -54,9 +54,24 @@ tar_plan(
   
   # EDA (histograms, boxplots, summary stat tables, more?)
   
+  # 1. Phenotype correlations (table + plot?)
+  
+  # 2. Histograms for each phenotype
+  
+  # 3. Test weight by location plots (maybe a heatmap or barplots with avg values)
+  
+  
+  
+  
   # Model fitting
   
-  # Model summary stats
+  # 1. Heritablility
+  
+  # 2. Model summary stats
+  
+  # 3. ANOVA data for table
+  
+  # 3(a). Publication-ready ANOVA summary tables
   
   ## Section: Exports
   ##################################################
