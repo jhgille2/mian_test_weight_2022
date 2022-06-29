@@ -48,8 +48,10 @@ fit_mixed_models <- function(df = split_data$data_2021) {
   }
   
   # Apply the function to each list element of the df argument (each test)
-  model_list <- map(df, blup_model)
+  df %<>%
+    mutate(fit_model = map(data, blup_model), 
+           blue_g    = map(fit_model, function(x) get_model_data(x, "blueg")))
   
   # And return the list of fit models
-  return(model_list)
+  return(df)
 }

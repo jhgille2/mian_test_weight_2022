@@ -7,7 +7,7 @@
 split_full_data <- function(full_data) {
 
   # Split the full data by test
-  split_by_test <- split_factors(full_data, test)
+  split_by_test <- split_factors(full_data, test, keep_factors = TRUE)
   
   # This list has just the tests that have test weight data for multiple years
   multiple_years           <- split_by_test[which(map_dbl(split_by_test, function(x) length(unique(x$year))) > 1)]
@@ -48,10 +48,18 @@ split_full_data <- function(full_data) {
   # both years
   multiple_years <- map(multiple_years, remove_discarded_genos)
   
+  all_multi_env <- bind_rows(reduce(multiple_years, bind_rows), 
+                             reduce(single_year_multiple_env, bind_rows)) %>% 
+    group_by(test) %>% 
+    nest()
+  
+  all_single_env <- reduce(single_year_single_env, bind_rows) %>% 
+    group_by(test) %>% 
+    nest()
+  
   # And return the three dataframes in a list
-  res <- list("multiple_years"           = multiple_years,
-              "single_year_multiple_env" = single_year_multiple_env, 
-              "single_year_single_env"   = single_year_single_env)
+  res <- list("multiple_env"           = all_multi_env,
+              "single_env" = all_single_env)
   
   return(res)
 }

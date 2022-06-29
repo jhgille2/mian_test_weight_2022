@@ -45,8 +45,10 @@ fit_mixed_models_one_env <- function(df = split_data$single_year_single_env) {
   }
   
   # Apply the function to each list element of the df argument (each test)
-  model_list <- map(df, blup_model)
+  df %<>%
+    mutate(fit_model = map(data, blup_model), 
+           blue_g    = map(fit_model, function(x) get_model_data(x, "blupg")))
   
   # And return the list of fit models
-  return(model_list)
+  return(df)
 }

@@ -133,17 +133,13 @@ tar_plan(
   
   # Model fitting
   
-  # Fit mixed models for tests that were grown in multiple years
-  tar_target(mixed_models_multiyear,
-             fit_mixed_models(df = split_data$multiple_years)),
+  # Fit mixed models for tests that were grown in multiple environments
+   tar_target(mixed_models_multienv,
+              fit_mixed_models(df = split_data$multiple_env)),
   
-  # Fit mixed models for single-year, multi environment data
-  tar_target(mixed_models_singleyear_multienv,
-             fit_mixed_models(df = split_data$single_year_multiple_env)),
-  
-  # Fit mixed models for single-year, single-environment data
-  tar_target(mixed_models_singleyear_singleenv,
-             fit_mixed_models_one_env(df = split_data$single_year_single_env)),
+  # Fit mixed models for single-year, single environment tests
+  tar_target(mixed_models_singleenv,
+             fit_mixed_models_one_env(df = split_data$single_env)),
   
   # Heritablility
   
