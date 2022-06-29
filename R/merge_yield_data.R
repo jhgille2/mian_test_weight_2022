@@ -5,7 +5,7 @@
 #' @title
 #' @param yield_file_2020
 #' @param yield_file_2021
-merge_yield_data <- function(jay_yield_file_2020, yield_file_2020, yield_file_2021) {
+merge_yield_data <- function(jay_yield_file_2020, yield_file_2020, yield_file_2021, util_tables) {
 
   # Read in the yield files for 2020 and 2021 and select just the identification 
   # columns and the phenotype columns we'll use in the analysis
@@ -27,6 +27,9 @@ merge_yield_data <- function(jay_yield_file_2020, yield_file_2020, yield_file_20
   yld_all <- bind_rows(yld_2020, yld_2021) %>% 
     bind_rows(jay_yld_2020) %>%
     mutate(rep = as.character(rep))
+  
+  # Standardize test names across years
+  yld_all <- convert_from_table(yld_all, "test", util_tables$test_conversion_table)
   
   # Return this combined dataframe
   return(yld_all)

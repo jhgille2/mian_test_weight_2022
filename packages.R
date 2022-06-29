@@ -12,6 +12,7 @@ pacman::p_load(conflicted,
                here, 
                readxl, 
                correlation, 
-               metan)
+               metan, 
+               magrittr)
 
 pacman::p_load_gh("jhgille2/snfR")

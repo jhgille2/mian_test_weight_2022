@@ -53,6 +53,12 @@ tar_plan(
              here("data", "utils", "genotype_name_conversion.xlsx"), 
              format = "file"), 
   
+  # A table to convert between test names that are coded 
+  # differently between years
+  tar_target(test_conversion, 
+             here("data", "utils", "test_name_conversion.xlsx"), 
+             format = "file"), 
+  
   # A table to convert short phenotype names to publication-ready names
   tar_target(trait_conversion, 
              here("data", "utils", "trait_name_lookup.xlsx"), 
@@ -79,7 +85,8 @@ tar_plan(
                               genotype_conversion, 
                               trait_conversion, 
                               trait_shortname_conversion, 
-                              column_shortname_conversion)),
+                              column_shortname_conversion, 
+                              test_conversion)),
   
   # clean up the lead sheet files
   tar_target(leadsheet_data_2020,
@@ -97,11 +104,11 @@ tar_plan(
   
   # Merge the test weight data from 2020 and 2021
   tar_target(merged_test_weight, 
-             merge_test_weight(test_weight_data_2020, test_weight_data_2021)),
+             merge_test_weight(test_weight_data_2020, test_weight_data_2021, util_tables)),
   
   # Merge the yield data from 2020 and 2021
   tar_target(merged_yield_data, 
-             merge_yield_data(jay_yield_file_2020, yield_file_2020, yield_file_2021)),
+             merge_yield_data(jay_yield_file_2020, yield_file_2020, yield_file_2021, util_tables)),
   
   # Merge the yield data and the test weight data
   tar_target(full_data, 
@@ -124,18 +131,19 @@ tar_plan(
   
   # 3. Test weight by location plots (maybe a heatmap or barplots with avg values)
   
-  
-  
-  
   # Model fitting
   
-  # The blups for 2021
-  tar_target(blups_2021, 
-             fit_mixed_models(df = split_data$data_2021)),
+  # Fit mixed models for tests that were grown in multiple years
+  tar_target(mixed_models_multiyear,
+             fit_mixed_models(df = split_data$multiple_years)),
   
-  # The blups for 2020
-  tar_target(blups_2020, 
-             fit_mixed_models(df = split_data$data_2021)),
+  # Fit mixed models for single-year, multi environment data
+  tar_target(mixed_models_singleyear_multienv,
+             fit_mixed_models(df = split_data$single_year_multiple_env)),
+  
+  # Fit mixed models for single-year, single-environment data
+  tar_target(mixed_models_singleyear_singleenv,
+             fit_mixed_models_one_env(df = split_data$single_year_single_env)),
   
   # Heritablility
   

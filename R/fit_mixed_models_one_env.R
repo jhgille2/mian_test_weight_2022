@@ -4,11 +4,10 @@
 #'
 #' @title
 #' @param df
-fit_mixed_models <- function(df = split_data$data_2021) {
+fit_mixed_models_one_env <- function(df = split_data$single_year_single_env) {
   
   # Use the gamem_met function from metan to fit a mixed effect model on a tests data
   blup_model <- function(test_data){
-    
     
     # Remove the year column from the data first so that the 
     # everything() function can be used to select 
@@ -36,13 +35,11 @@ fit_mixed_models <- function(df = split_data$data_2021) {
     test_data %<>%
       select(-any_of(missing_var_names))
     
-    model_fit <- gamem_met(test_data,
-                           env     = env, 
-                           gen     = genotype, 
-                           rep     = rep, 
-                           resp    = everything(), 
-                           random  = "env",
-                           verbose = FALSE)
+    model_fit <- gamem(test_data,
+                       gen     = genotype, 
+                       rep     = rep, 
+                       resp    = everything(), 
+                       verbose = FALSE)
     
     return(model_fit)
   }
